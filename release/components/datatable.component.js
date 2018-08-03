@@ -539,7 +539,7 @@ var DatatableComponent = /** @class */ (function () {
         this.columnTemplates.changes.subscribe(function (v) {
             return _this.translateColumns(v);
         });
-        this.listenForColumnInputChanges();
+        // this.listenForColumnInputChanges();
     };
     /**
      * Translates the templates to the column objects
