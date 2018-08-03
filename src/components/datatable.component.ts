@@ -752,7 +752,7 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
     this.columnTemplates.changes.subscribe(v =>
       this.translateColumns(v));
       
-    this.listenForColumnInputChanges();
+    // this.listenForColumnInputChanges();
   }
 
   /**
