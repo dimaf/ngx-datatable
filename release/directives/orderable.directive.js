@@ -115,6 +115,10 @@ var OrderableDirective = /** @class */ (function () {
         var i = 0;
         var x = event.x || event.clientX;
         var y = event.y || event.clientY;
+        if (this.document.msElementsFromPoint !== undefined) {
+            x = event.clientX;
+            y = event.clientY;
+        }
         var targets = this.document.elementsFromPoint(x, y);
         var _loop_1 = function (prop) {
             // current column position which throws event.

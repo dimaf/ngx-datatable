@@ -5537,6 +5537,10 @@ var OrderableDirective = /** @class */ (function () {
         var i = 0;
         var x = event.x || event.clientX;
         var y = event.y || event.clientY;
+        if (this.document.msElementsFromPoint !== undefined) {
+            x = event.clientX;
+            y = event.clientY;
+        }
         var targets = this.document.elementsFromPoint(x, y);
         var _loop_1 = function (prop) {
             // current column position which throws event.
@@ -6419,32 +6423,27 @@ if (typeof document !== 'undefined' && !document.elementsFromPoint) {
  * https://gist.github.com/iddan/54d5d9e58311b0495a91bf06de661380
  * https://gist.github.com/oslego/7265412
  */
+// Credits to https://github.com/jfkhoury/elementsFromPoint
+// get all elements via getBoundingClientRect
+// x and y should be passed event.clientX and event.clientY in case of Internet Explorer
 function elementsFromPoint(x, y) {
     var elements = [];
-    var previousPointerEvents = [];
-    var current; // TODO: window.getComputedStyle should be used with inferred type (Element)
-    var i;
-    var d;
-    //if (document === undefined) return elements;
-    // get all elements via elementFromPoint, and remove them from hit-testing in order
-    while ((current = document.elementFromPoint(x, y)) && elements.indexOf(current) === -1 && current != null) {
-        // push the element and its current style
-        elements.push(current);
-        previousPointerEvents.push({
-            value: current.style.getPropertyValue('pointer-events'),
-            priority: current.style.getPropertyPriority('pointer-events')
-        });
-        // add "pointer-events: none", to get to the underlying element
-        current.style.setProperty('pointer-events', 'none', 'important');
+    var context = document.querySelector("ngx-datatable");
+    var selector = "*";
+    var children = selector ? context.querySelectorAll(selector) : context.children;
+    function hasElCollidedWithCoord(pos) {
+        return pos.left <= x && x <= pos.right && pos.top <= y && y <= pos.bottom;
     }
-    // restore the previous pointer-events values
-    for (i = previousPointerEvents.length; d = previousPointerEvents[--i];) {
-        elements[i].style.setProperty('pointer-events', d.value ? d.value : '', d.priority);
+    for (var i = 0, l = children.length; i < l; i++) {
+        var pos = children[i].getBoundingClientRect();
+        if (hasElCollidedWithCoord(pos)) {
+            elements.push(children[i]);
+        }
     }
-    // return our results
     return elements;
 }
 exports.elementsFromPoint = elementsFromPoint;
+;
 /*tslint:enable*/
 
 
