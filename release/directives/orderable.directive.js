@@ -120,16 +120,28 @@ var OrderableDirective = /** @class */ (function () {
             y = event.clientY;
         }
         var targets = this.document.elementsFromPoint(x, y);
+        var prevPos;
         var _loop_1 = function (prop) {
             // current column position which throws event.
             var pos = this_1.positions[prop];
             // since we drag the inner span, we need to find it in the elements at the cursor
             if (model.prop !== prop && targets.find(function (el) { return el === pos.element; })) {
-                return { value: {
-                        pos: pos,
-                        i: i
-                    } };
+                var rectEl = pos.element.getBoundingClientRect();
+                // Check if drop cordinate are left or right from the middl of target element
+                if (x < (rectEl.left + rectEl.right) / 2) {
+                    return { value: {
+                            prevPos: prevPos,
+                            i: i - 1
+                        } };
+                }
+                else {
+                    return { value: {
+                            pos: pos,
+                            i: i
+                        } };
+                }
             }
+            prevPos = pos;
             i++;
         };
         var this_1 = this;
