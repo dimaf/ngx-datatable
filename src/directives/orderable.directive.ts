@@ -128,6 +128,7 @@ export class OrderableDirective implements AfterContentInit, OnDestroy {
       y = event.clientY;
     }
     const targets = this.document.elementsFromPoint(x, y);
+    let prevPos;
 
     for (const prop in this.positions) {
       // current column position which throws event.
@@ -135,12 +136,21 @@ export class OrderableDirective implements AfterContentInit, OnDestroy {
 
       // since we drag the inner span, we need to find it in the elements at the cursor
       if (model.prop !== prop && targets.find((el: any) => el === pos.element)) {
-        return {
-          pos,
-          i
-        };
+        const rectEl = pos.element.getBoundingClientRect()
+        // Check if drop cordinate are left or right from the middl of target element
+        if( x < (rectEl.left+rectEl.right)/2 ) {
+          return {
+            prevPos,
+            i: i-1
+          };
+        } else {
+          return {
+            pos,
+            i
+          };
+        }
       }
-
+      prevPos = pos;
       i++;
     }
   }
