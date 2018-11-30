@@ -2742,7 +2742,7 @@ var DatatableComponent = /** @class */ (function () {
          * Swap columns on re-order columns or
          * move them.
          */
-        this.swapColumns = true;
+        this.swapColumns = false;
         /**
          * The type of sorting
          */
