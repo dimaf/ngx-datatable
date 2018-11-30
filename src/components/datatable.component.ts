@@ -335,7 +335,7 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
    * Swap columns on re-order columns or
    * move them.
    */
-  @Input() swapColumns: boolean = true;
+  @Input() swapColumns: boolean = false;
 
   /**
    * The type of sorting
