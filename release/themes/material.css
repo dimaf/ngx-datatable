@@ -100,7 +100,8 @@
       font-size: 12px;
       font-weight: 500; }
       .ngx-datatable.material .datatable-header .datatable-header-cell .datatable-header-cell-wrapper {
-        position: relative; }
+        position: relative;
+        z-index: 100; }
       .ngx-datatable.material .datatable-header .datatable-header-cell.longpress .draggable::after {
         transition: transform 400ms ease, opacity 400ms ease;
         opacity: .5;
