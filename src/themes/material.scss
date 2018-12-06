@@ -138,7 +138,8 @@
       font-weight: 500;
 
       .datatable-header-cell-wrapper {
-        position: relative;
+				position: relative;
+				z-index: 100;
       }
 
 			&.longpress {
