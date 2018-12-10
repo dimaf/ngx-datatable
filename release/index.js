@@ -5549,19 +5549,22 @@ var OrderableDirective = /** @class */ (function () {
             // since we drag the inner span, we need to find it in the elements at the cursor
             if (model.prop !== prop && targets.find(function (el) { return el === pos.element; })) {
                 var rectEl = pos.element.getBoundingClientRect();
+                var indexDrop = i;
                 // Check if drop cordinate are left or right from the middl of target element
                 if (x < (rectEl.left + rectEl.right) / 2) {
-                    return { value: {
-                            prevPos: prevPos,
-                            i: i - 1
-                        } };
+                    if (this_1.positions[model.prop].index < i) {
+                        indexDrop = (indexDrop == 0) ? 0 : indexDrop - 1;
+                    }
                 }
                 else {
-                    return { value: {
-                            pos: pos,
-                            i: i
-                        } };
+                    if (this_1.positions[model.prop].index > i) {
+                        indexDrop = (indexDrop == this_1.positions.length) ? indexDrop : indexDrop + 1;
+                    }
                 }
+                return { value: {
+                        prevPos: prevPos,
+                        i: indexDrop
+                    } };
             }
             prevPos = pos;
             i++;
